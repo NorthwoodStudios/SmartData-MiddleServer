@@ -1,2 +1,2 @@
 Flask==2.3.2
-pusher==3.0.1
+pusher==3.3.3
