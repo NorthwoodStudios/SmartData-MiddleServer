@@ -16,19 +16,22 @@ shared_data = {}
 @app.route('/sendData', methods=['POST'])
 def send_data():
     data = request.json
-    # Store data, e.g. by playerId
     player_id = data.get('playerId')
-    shared_data[player_id] = data
-    
-    # Trigger pusher event to notify web clients
+    print(f"Received data for playerId={player_id}: {data}")
+
+    shared_data[player_id] = data  # store whole data
+
     pusher_client.trigger('my-channel', 'my-event', data)
     return jsonify({'status': 'success'})
+
 
 @app.route('/getData', methods=['GET'])
 def get_data():
     player_id = request.args.get('playerId')
     data = shared_data.get(player_id)
+    print(f"GET data for playerId={player_id}: {data}")
     return jsonify(data or {})
+
 
 
 if __name__ == '__main__':
